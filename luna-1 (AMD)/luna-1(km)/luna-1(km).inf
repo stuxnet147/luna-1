@@ -1,0 +1,87 @@
+;
+; luna-1(km).inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=Sample ; TODO: edit Class
+ClassGuid={78A1C341-4539-11d3-B88D-00C04FAD5171} ; TODO: edit ClassGuid
+Provider=%ManufacturerName%
+CatalogFile=luna-1(km).cat
+DriverVer= ; TODO: set DriverVer in stampinf property pages
+PnpLockDown=1
+
+[DestinationDirs]
+DefaultDestDir = 12
+luna-1(km)_Device_CoInstaller_CopyFiles = 11
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SampleClassReg
+
+[SampleClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-5
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+luna-1(km).sys  = 1,,
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll=1 ; make sure the number matches with SourceDisksNames
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NT$ARCH$
+
+[Standard.NT$ARCH$]
+%luna-1(km).DeviceDesc%=luna-1(km)_Device, Root\luna-1(km) ; TODO: edit hw-id
+
+[luna-1(km)_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+luna-1(km).sys
+
+;-------------- Service installation
+[luna-1(km)_Device.NT.Services]
+AddService = luna-1(km),%SPSVCINST_ASSOCSERVICE%, luna-1(km)_Service_Inst
+
+; -------------- luna-1(km) driver install sections
+[luna-1(km)_Service_Inst]
+DisplayName    = %luna-1(km).SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\luna-1(km).sys
+
+;
+;--- luna-1(km)_Device Coinstaller installation ------
+;
+
+[luna-1(km)_Device.NT.CoInstallers]
+AddReg=luna-1(km)_Device_CoInstaller_AddReg
+CopyFiles=luna-1(km)_Device_CoInstaller_CopyFiles
+
+[luna-1(km)_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll,WdfCoInstaller"
+
+[luna-1(km)_Device_CoInstaller_CopyFiles]
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll
+
+[luna-1(km)_Device.NT.Wdf]
+KmdfService =  luna-1(km), luna-1(km)_wdfsect
+[luna-1(km)_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+ClassName="Samples" ; TODO: edit ClassName
+DiskName = "luna-1(km) Installation Disk"
+luna-1(km).DeviceDesc = "luna-1(km) Device"
+luna-1(km).SVCDESC = "luna-1(km) Service"

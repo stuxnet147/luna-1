@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\kernel_ctx">
+      <UniqueIdentifier>{dd3f6067-3dff-478f-9d68-b96fc0e5456c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\mem_ctx">
+      <UniqueIdentifier>{9d152069-464d-4ad4-ae2e-df0337a07cbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\patch_ctx">
+      <UniqueIdentifier>{4177fe47-d484-4b01-99ae-696601214b53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\kernel_ctx">
+      <UniqueIdentifier>{6eccd581-20cb-465a-9a1c-d9c8eb3fc399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\mem_ctx">
+      <UniqueIdentifier>{c6462452-fbac-45ba-a0c8-597a3dfa2935}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\patch_ctx">
+      <UniqueIdentifier>{dabb66f8-2a8f-482d-a8e1-a309bbdc6421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\physmeme">
+      <UniqueIdentifier>{2620ff7a-5d75-49c6-b340-6e0855fb9192}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\util">
+      <UniqueIdentifier>{25436615-f282-4963-8800-e3bd482e6fb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\drv_image">
+      <UniqueIdentifier>{9313adec-bfa8-4399-82f6-22840f247382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\drv_image">
+      <UniqueIdentifier>{db98d7be-fa02-45f7-9d32-2f2e79f72de7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="kernel_ctx\kernel_ctx.cpp">
+      <Filter>Source Files\kernel_ctx</Filter>
+    </ClCompile>
+    <ClCompile Include="mem_ctx\mem_ctx.cpp">
+      <Filter>Source Files\mem_ctx</Filter>
+    </ClCompile>
+    <ClCompile Include="patch_ctx\patch_ctx.cpp">
+      <Filter>Source Files\patch_ctx</Filter>
+    </ClCompile>
+    <ClCompile Include="luna-1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="map_driver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drv_image\drv_image.cpp">
+      <Filter>Source Files\drv_image</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="raw_driver.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel_ctx\kernel_ctx.h">
+      <Filter>Header Files\kernel_ctx</Filter>
+    </ClInclude>
+    <ClInclude Include="mem_ctx\mem_ctx.hpp">
+      <Filter>Header Files\mem_ctx</Filter>
+    </ClInclude>
+    <ClInclude Include="patch_ctx\patch_ctx.hpp">
+      <Filter>Header Files\patch_ctx</Filter>
+    </ClInclude>
+    <ClInclude Include="loadup.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physmeme\physmeme.hpp">
+      <Filter>Header Files\physmeme</Filter>
+    </ClInclude>
+    <ClInclude Include="util\hook.hpp">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="util\nt.hpp">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="util\util.hpp">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="direct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="luna-1.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="map_driver.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drv_image\drv_image.h">
+      <Filter>Header Files\drv_image</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="direct.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+  </ItemGroup>
+</Project>
