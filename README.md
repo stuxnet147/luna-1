@@ -7,7 +7,7 @@ Although the project is unstable, it was an important learning project that help
 ### Patch Guard
 This is an old project that tested many of my theoretical page table manipulation concepts. This project was created in part to find bugs/problems with my theories
 and to be used as a reference for future projects. It was not ment to be used for anything else. From this project I have learned that PSKP (Process-Context Specific Kernel Patches) 
-is not page guard friendly. Patch guard does indeed check the kernel PML4E's to ensure they are pointing at valid PDPT's. Although triggering patchguard has never been
+is not patch guard friendly. Patch guard does indeed check the kernel PML4E's to ensure they are pointing at valid PDPT's. Although triggering patchguard has never been
 done before personally. This leads me to my second patchguard related conclusion; using this to patch ntoskrnl.exe does not bypass patchguard as patch guard can run in
 all address spaces. Reguardless I have never been able to trip patchguard on these detections, I've ran this is code in a VM for over 48 hours doing a simple patch to
 ntoskrnl.exe.
