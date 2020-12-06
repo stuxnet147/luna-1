@@ -1,7 +1,6 @@
-# Old code from 6/xx/2020.
+# Detection
 
-### Detection
-
+### Kernel PML4E PFN Discrepancies
 Both projects can be detected by enumorating page tables for changes in kernel PML4E page frame numbers. All process-context kernel mappings point to the same PDPTs unless
 explicitly changed (by PSKP which both projects use). You can also explicitly detect the intel varient of this project by enumorating all processes for extra kernel PML4E's
 or kernel PML4E's in usermode part of the PML4. 
@@ -67,6 +66,8 @@ pml4e at -> 272 (0x0000000127957880)
         - executable: 1
 // ...
 ```
+
+### Simple Kernel Pool Scans (AMD Version)
 
 The AMD varient of this project is already detected by EAC as its allocated in a kernel pool with no protections. Simple scans for `sub rsp, 28h`, `add rsp ?, ret` will
 detect the mapped driver. You can also scan for `E8 ? ? ? ?` for calls that land inside of the same pool or land inside of a loaded kernel module. 
