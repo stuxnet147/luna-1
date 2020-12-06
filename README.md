@@ -98,6 +98,8 @@ pml4e at -> 272 (0x0000000127957880)
 // ...
 ```
 
+### Simple Page Table Checks
+
 You can simply call `NtQuerySystemInformation` - `SystemProcessInformation` and enumorate all running processes (BattlEye already does this) to obtain each processes PID.
 
 ```cpp
@@ -133,12 +135,20 @@ This is a simple example of checking for kernel memory in usermode...
 ```cpp
 // for loop enumorating over SYSTEM_PROCESS_INFORMATION results...
 KeStackAttachProcess(DesiredProcess, &ApcState);
-PPML4E HyperSpacePml4 = MmGetVirtualForPhysical(*(PVOID*)(DesiredProcess + 0x28));
+UINT64 ProcessPml4 = (UINT64)(*(PVOID*)(DesiredProcess + 0x28));
+PPML4E HyperSpacePml4 = MmGetVirtualForPhysical(ProcessPml4);
 {
     // check to see if there is kernel memory in usermode...
     for (UINT16 idx = 0; idx < 256; ++idx)
         if(!HyperSpacePml4[idx].UserSuperVisor)
             // kernel memory was found in usermode...
+            
+    // check to see if there is invalid PML4E->Pfn's
+    for (UINT16 idx = 256; idx < 512; ++idx)
+        // checks to see if the PFN is invalid & if the entry is not the self referencing entry...
+        // you should also check if there is multiple self ref entries as that is invalid...
+        if(HyperSpacePml4[idx].Pfn != KernelPml4es[idx].Pfn && HyperSpacePml4[idx].Pfn != ProcessPml4 >> 12)
+            // PSKP detected...
 }
 KeUnstackDetachProcess(&ApcState);
 ```
