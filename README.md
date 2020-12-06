@@ -75,16 +75,19 @@ detect the mapped driver. You can also scan for `E8 ? ? ? ?` for calls that land
 Both versions of this project are highly unstable due to the face that they both use an out dated version of PSKP, PTM (not created yet), and VDM (not created yet). 
 This repo should serve as a reference rather then working code, after all it is luna-1, a probe to test how these theoretical concepts would play out.
 
+# Info
 ### luna-1 (AMD)
 
 Driver gets allocated inside of the kernel using a normal pool. The Nt headers of the driver are zero'ed. Communication with this driver happens via a process specific
 syscall hook (meaning the hook cannot be seen in any other context). Detected on EAC, should be fine for BattlEye.
 
+Since with PSKP MmCopyVirtualMemory can cause issues with memory not being present in one address space and is present in another, the page tables are manually walked
+and the physical page is directly written too. This works well, all memory is writeable since page protections are bypassed. 
 
 ### luna-1 (INTEL)
 
 Driver gets allocated inside of the current process (not the kernel itself) and makes a process specific syscall hook to communicate (just like the AMD one). The AMD luna-1
-also works for intel. This project is using a super old version of PSKDM which is not stable, its also using an old version of PTM and its using physmeme instead of VDM.
+also works for intel. This project is using a super old version of PSKDM which is not stable, its also using an old version of PTM and its using physmeme instead of VDM. Not sure if EAC is enumorating all processes PML4's yet, when they do this will be detected. Should be fine for BattlEye.
 
-Not sure if EAC is enumorating all processes PML4's yet, when they do this will be detected. Should be fine for BattlEye.
-
+Since with PSKP MmCopyVirtualMemory can cause issues with memory not being present in one address space and is present in another, the page tables are manually walked
+and the physical page is directly written too. This works well, all memory is writeable since page protections are bypassed. 
