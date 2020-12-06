@@ -6,6 +6,66 @@ Both projects can be detected by enumorating page tables for changes in kernel P
 explicitly changed (by PSKP which both projects use). You can also explicitly detect the intel varient of this project by enumorating all processes for extra kernel PML4E's
 or kernel PML4E's in usermode part of the PML4. 
 
+Kernel PML4E's all point to the same PDPT's besides the self referencing PML4E...
+```
+// notepad's kernel mappings....
+//....
+pml4e at -> 267 (0x0000000092A1D858)
+        - pfn: 0xb579
+        - writeable: 1
+        - executable: 1
+pml4e at -> 268 (0x0000000092A1D860)
+        - pfn: 0xb57a
+        - writeable: 1
+        - executable: 1
+pml4e at -> 269 (0x0000000092A1D868)
+        - pfn: 0xb57b
+        - writeable: 1
+        - executable: 1
+pml4e at -> 270 (0x0000000092A1D870)
+        - pfn: 0xb57c
+        - writeable: 1
+        - executable: 1
+pml4e at -> 271 (0x0000000092A1D878)
+        - pfn: 0xb57d
+        - writeable: 1
+        - executable: 1
+pml4e at -> 272 (0x0000000092A1D880)
+        - pfn: 0xb57e
+        - writeable: 1
+        - executable: 1
+//....
+```
+
+And here is PTM.exe kernel PML4E's:
+
+```
+pml4e at -> 267 (0x0000000127957858)
+        - pfn: 0xb579 <============ same PFN as notepad only changes explicitly by PSKP
+        - writeable: 1
+        - executable: 1
+pml4e at -> 268 (0x0000000127957860)
+        - pfn: 0xb57a <============ same PFN as notepad only changes explicitly by PSKP
+        - writeable: 1
+        - executable: 1
+pml4e at -> 269 (0x0000000127957868)
+        - pfn: 0xb57b <============ same PFN as notepad only changes explicitly by PSKP
+        - writeable: 1
+        - executable: 1
+pml4e at -> 270 (0x0000000127957870)
+        - pfn: 0xb57c <============ same PFN as notepad only changes explicitly by PSKP
+        - writeable: 1
+        - executable: 1
+pml4e at -> 271 (0x0000000127957878)
+        - pfn: 0xb57d <============ same PFN as notepad only changes explicitly by PSKP
+        - writeable: 1
+        - executable: 1
+pml4e at -> 272 (0x0000000127957880)
+        - pfn: 0xb57e <============ same PFN as notepad only changes explicitly by PSKP
+        - writeable: 1
+        - executable: 1
+```
+
 The AMD varient of this project is already detected by EAC as its allocated in a kernel pool with no protections. Simple scans for `sub rsp, 28h`, `add rsp ?, ret` will
 detect the mapped driver. You can also scan for `E8 ? ? ? ?` for calls that land inside of the same pool or land inside of a loaded kernel module. 
 
