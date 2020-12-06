@@ -4,7 +4,10 @@
 
 Both projects can be detected by enumorating page tables for changes in kernel PML4E page frame numbers. All process-context kernel mappings point to the same PDPTs unless
 explicitly changed (by PSKP which both projects use). You can also explicitly detect the intel varient of this project by enumorating all processes for extra kernel PML4E's
-or kernel PML4E's in usermode part of the PML4. The AMD varient of this project is already detected by EAC as its allocated in a kernel pool with no protections. 
+or kernel PML4E's in usermode part of the PML4. 
+
+The AMD varient of this project is already detected by EAC as its allocated in a kernel pool with no protections. Simple scans for `sub rsp, 28h`, `add rsp ?, ret` will
+detect the mapped driver. You can also scan for `E8 ? ? ? ?` for calls that land inside of the same pool or land inside of a loaded kernel module. 
 
 Both versions of this project are highly unstable due to the face that they both use an out dated version of PSKP, PTM (not created yet), and VDM (not created yet). 
 This repo should serve as a reference rather then working code, after all it is luna-1, a probe to test how these theoretical concepts would play out.
