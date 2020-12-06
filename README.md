@@ -98,6 +98,51 @@ pml4e at -> 272 (0x0000000127957880)
 // ...
 ```
 
+You can simply call `NtQuerySystemInformation` - `SystemProcessInformation` and enumorate all running processes (BattlEye already does this) to obtain each processes PID.
+
+```cpp
+typedef struct _SYSTEM_PROCESS_INFORMATION {
+
+
+
+  ULONG                   NextEntryOffset;
+  ULONG                   NumberOfThreads;
+  LARGE_INTEGER           Reserved[3];
+  LARGE_INTEGER           CreateTime;
+  LARGE_INTEGER           UserTime;
+  LARGE_INTEGER           KernelTime;
+  UNICODE_STRING          ImageName;
+  KPRIORITY               BasePriority;
+  HANDLE                  ProcessId;
+  HANDLE                  InheritedFromProcessId;
+  ULONG                   HandleCount;
+  ULONG                   Reserved2[2];
+  ULONG                   PrivatePageCount;
+  VM_COUNTERS             VirtualMemoryCounters;
+  IO_COUNTERS             IoCounters;
+  SYSTEM_THREAD           Threads[0];
+
+} SYSTEM_PROCESS_INFORMATION, *PSYSTEM_PROCESS_INFORMATION;
+```
+
+While looping over process information structures you can `PsLookupProcessByProcessId` to obtain the PEPROCESS, then add 0x28 to this PEPROCESS to get the DirectoryTableBase of
+that process. You can KeStackAttachProcess to this process and call MmGetVirtualForPhysical to get the hyperspace mappings of this processes PML4. This hyperspace address
+is the virtual address of the PML4, you can simply scan this for inconsistant PML4E->PFN's as described above. You can also scan for kernel memory in usermode.
+
+This is a simple example of checking for kernel memory in usermode...
+```cpp
+// for loop enumorating over SYSTEM_PROCESS_INFORMATION results...
+KeStackAttachProcess(DesiredProcess, &ApcState);
+PPML4E HyperSpacePml4 = MmGetVirtualForPhysical(*(PVOID*)(DesiredProcess + 0x28));
+{
+    // check to see if there is kernel memory in usermode...
+    for (UINT16 idx = 0; idx < 256; ++idx)
+        if(!HyperSpacePml4[idx].UserSuperVisor)
+            // kernel memory was found in usermode...
+}
+KeUnstackDetachProcess(&ApcState);
+```
+
 ### Simple Kernel Pool Scans (AMD Version)
 
 The AMD varient of this project is already detected by EAC as its allocated in a kernel pool with no protections. Simple scans for `sub rsp, 28h`, `add rsp ?, ret` will
