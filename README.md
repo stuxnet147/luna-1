@@ -131,7 +131,7 @@ While looping over process information structures you can `PsLookupProcessByProc
 that process. You can KeStackAttachProcess to this process and call MmGetVirtualForPhysical to get the hyperspace mappings of this processes PML4. This hyperspace address
 is the virtual address of the PML4, you can simply scan this for inconsistant PML4E->PFN's as described above. You can also scan for kernel memory in usermode.
 
-This is a simple example of checking for kernel memory in usermode...
+This is a simple example of checking for kernel memory in usermode and for invalid PFN's. Keep in mind that this will not check KVA shadowing usermode PML4.
 ```cpp
 // for loop enumorating over SYSTEM_PROCESS_INFORMATION results...
 KeStackAttachProcess(DesiredProcess, &ApcState);
