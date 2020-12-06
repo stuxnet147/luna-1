@@ -91,7 +91,9 @@ reason i manually walk the paging tables and map the physical memory into virtua
 
 Since this project uses a very very old version of PTM, before PTM was every made, it uses a different technique to map physical memory into virtual memory. 
 The code in this project changes a PTE of a VirtualAlloc'ed page to point at another VirtualAlloc'ed pages PT. This allows the library to change the second
-VirtualAlloc'ed pages PFN from usermode. 
+VirtualAlloc'ed pages PFN from usermode. If the original PFN is not restored before the program closes (and all virtual memory is unmapped), a crash will happen (PFN Corruption).
+Also dealing with the TLB was a pain in the ass, the TLB was such an issue I created a new technique to get around it which is used in PTM. I generate new
+virtual addresses on the fly now and ensure they are accessable.
 
 ### luna-1 (AMD)
 
