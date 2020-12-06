@@ -40,6 +40,7 @@ pml4e at -> 272 (0x0000000092A1D880)
 And here is PTM.exe kernel PML4E's:
 
 ```
+// ...
 pml4e at -> 267 (0x0000000127957858)
         - pfn: 0xb579 <============ same PFN as notepad only changes explicitly by PSKP
         - writeable: 1
@@ -64,6 +65,7 @@ pml4e at -> 272 (0x0000000127957880)
         - pfn: 0xb57e <============ same PFN as notepad only changes explicitly by PSKP
         - writeable: 1
         - executable: 1
+// ...
 ```
 
 The AMD varient of this project is already detected by EAC as its allocated in a kernel pool with no protections. Simple scans for `sub rsp, 28h`, `add rsp ?, ret` will
