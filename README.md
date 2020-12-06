@@ -160,3 +160,23 @@ detect the mapped driver. You can also scan for `E8 ? ? ? ?` for calls that land
 
 Both versions of this project are highly unstable due to the face that they both use an out dated version of PSKP, PTM (not created yet), and VDM (not created yet). 
 This repo should serve as a reference rather then working code, after all it is luna-1, a probe to test how these theoretical concepts would play out.
+
+You can `NtQuerySystemInformation` - `SystemBigPoolInformation` for allocated kernel pools which the AMD version of this project will be in.
+
+```cpp
+typedef struct _SYSTEM_BIGPOOL_ENTRY 
+{
+	union {
+		PVOID VirtualAddress;
+		ULONG_PTR NonPaged : 1;
+	};
+	ULONG_PTR SizeInBytes;
+	union {
+		UCHAR Tag[4];
+		ULONG TagUlong;
+	};
+} SYSTEM_BIGPOOL_ENTRY, *PSYSTEM_BIGPOOL_ENTRY;
+```
+
+While enumorating over these pools you can scan the pools for `sub rsp, 28h`, and `add rsp ?, ret`. You can also scan for `E8 ? ? ? ?` (call xxxx) that lands inside of the pool
+itself or lands inside of a loaded kernel module. 
