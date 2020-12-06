@@ -75,7 +75,7 @@ detect the mapped driver. You can also scan for `E8 ? ? ? ?` for calls that land
 Both versions of this project are highly unstable due to the face that they both use an out dated version of PSKP, PTM (not created yet), and VDM (not created yet). 
 This repo should serve as a reference rather then working code, after all it is luna-1, a probe to test how these theoretical concepts would play out.
 
-# Info
+# Project Info
 ### luna-1 (AMD)
 
 Driver gets allocated inside of the kernel using a normal pool. The Nt headers of the driver are zero'ed. Communication with this driver happens via a process specific
