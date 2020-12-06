@@ -76,6 +76,23 @@ Both versions of this project are highly unstable due to the face that they both
 This repo should serve as a reference rather then working code, after all it is luna-1, a probe to test how these theoretical concepts would play out.
 
 # Project Info
+
+This is an old project that tested many of my theoretical page table manipulation concepts. This project was created in part to find bugs/problems with my theories
+and to be used as a reference for future projects. It was not ment to be used for anything else. From this project I have learned that PSKP (Process-Context Specific Kernel Patches) 
+is not page guard friendly. Patch guard does indeed check the kernel PML4E's to ensure they are pointing at valid PDPT's. Although triggering patchguard has never been
+done before personally. This leads me to my second patchguard related conclusion; using this to patch ntoskrnl.exe does not bypass patchguard as patch guard can run in
+all address spaces. Reguardless I have never been able to trip patchguard on these detections, I've ran this is code in a VM for over 48 hours doing a simple patch to
+ntoskrnl.exe.
+
+Another note about PSKP is that when memory is allocated in the new PDPT, PD, and PT it is not being mapped into other processes kernel mappings. This means its possible
+to crash the system by allocating memory, KeStackAttaching and then accessing that memory (since its not mapped into the process you KeStackAttached too). Any function
+that uses KeStackAttachProcess can cause an access violation and thus a crash. MmCopyVirtualMemory allocates a pool and then calls KeStackAttachProcess. This was the 
+reason i manually walk the paging tables and map the physical memory into virtual memory.
+
+Since this project uses a very very old version of PTM, before PTM was every made, it uses a different technique to map physical memory into virtual memory. 
+The code in this project changes a PTE of a VirtualAlloc'ed page to point at another VirtualAlloc'ed pages PT. This allows the library to change the second
+VirtualAlloc'ed pages PFN from usermode. 
+
 ### luna-1 (AMD)
 
 Driver gets allocated inside of the kernel using a normal pool. The Nt headers of the driver are zero'ed. Communication with this driver happens via a process specific
